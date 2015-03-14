@@ -128,37 +128,31 @@ int main(int argc,char *argv[]){
 
 int buyFood(int openAt[],int closeAt[],int walkTime){
   int item=0;
-  int currentTime=0;
-  int maxcloseAt=0;
-  int round=1;
-  int allItem=0;
-  register int i=0;
- 
-  /* loop check whether can buy item or not ?. exit loop when all shop closed 
-     or have bought all item already.
-   */
-  while(1){
-    if(closeAt[i] > maxcloseAt)
-      maxcloseAt = closeAt[i];
-    if(currentTime >= openAt[i] && currentTime < closeAt[i]){
-      item=item+1;
-      closeAt[i] = -10 ;
-     
+  int size;
+  int i=0;
+  int k = 0;
+  /* find out the size of array */
+  while(openAt[k] != -1)
+    k++;
+  size = k;
+
+  /* estimate value of that element in each turn and check is is in range 
+     openAt - closeAt 
+     tmp = value of first element of array in round 2 we didn't use 
+     round 1 because it is 0 
+     j is multiplier that make value nearest the range
+     first and second is the value in next turn and next two turn; */ 
+  for(i=0 ; i < size ; i++){
+    int tmp = (walkTime*size);
+    int j = openAt[i]/tmp; 
+    int first = (walkTime*size*j)+(walkTime*i);
+    int second = (walkTime*size*(j+1))+(walkTime*i);
+    if((first >= openAt[i]) && (first < closeAt[i])){
+      item+=1;
+      continue;
     }
-    currentTime += walkTime;
-    i++;
-   
-    if(closeAt[i] == -1){
-      allItem = i; 
-      i = 0;
-      round += 1;
-    }
-    if(round>1){
-      if(currentTime > maxcloseAt)
-	break;
-      else if(item == allItem)
-	break;
-    }
+    if((second >= openAt[i]) && (second < closeAt[i]))
+      item+=1;
   }
   return item;
 }
