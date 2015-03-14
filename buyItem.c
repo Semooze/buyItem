@@ -19,7 +19,7 @@ int main(int argc,char *argv[]){
      input value is in range 0-999999 and element number is in range 2-50 */ 
  
   while(i<50){
-    printf("Enter number into openAt[%d] or type \"n\" if finished\n",i);
+    printf("Enter number into openAt[%d] 0-999999 or type \"n\" if finished\n",i);
     scanf("%s",Buffer);
     if(i>1 && (strcmp(Buffer,"n") == 0))
         break;
@@ -53,7 +53,7 @@ int main(int argc,char *argv[]){
      input value is in range 1-1000000 and element number have to equal openAt */ 
 
   while(i<50){
-    printf("Enter number into closeAt[%d]  or type \"n\" if finish\n",i);
+    printf("Enter number into closeAt[%d] 1-1000000 or type \"n\" if finish\n",i);
     scanf("%s",Buffer);
     if(i>1 && (strcmp(Buffer,"n") == 0))
         break;
@@ -102,9 +102,25 @@ int main(int argc,char *argv[]){
      break;
   }
  
-  int item = buyFood(openAt,closeAt,walkTime);
+  i = 0; 
+  printf("openAt = {");
+  while(openAt[i] != -1){
+    printf("%d ",openAt[i]);
+    i++;
+  }
+  printf("}\n");
 
-  printf("walkTime = %d\nReturn = %d\n",walkTime,item);
+  i = 0; 
+  printf("closeAt = {");
+  while(closeAt[i] != -1){
+    printf("%d ",closeAt[i]);
+    i++;
+  }
+
+  printf("}\n");
+  printf("walkTime = %d\n",walkTime);
+  int item = buyFood(openAt,closeAt,walkTime);
+  printf("Return = %d\n",item);
   return 0;
 
 }
@@ -122,17 +138,14 @@ int buyFood(int openAt[],int closeAt[],int walkTime){
      or have bought all item already.
    */
   while(1){
-    printf("round%d\n",round);
     if(closeAt[i] > maxcloseAt)
       maxcloseAt = closeAt[i];
     if(currentTime >= openAt[i] && currentTime < closeAt[i]){
-      printf("current Time = %d openAt[%d] = %d closeAt[%d] = %d\n",currentTime,i,openAt[i],i,closeAt[i]);
       item=item+1;
       closeAt[i] = -10 ;
      
     }
     currentTime += walkTime;
-    printf("closAt[%d] = %d\ncurrentTime = %d\nmaxCloseAt = %d\n item= %d\n",i,closeAt[i],currentTime,maxcloseAt,item);
     i++;
    
     if(closeAt[i] == -1){
