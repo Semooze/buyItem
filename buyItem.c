@@ -91,11 +91,13 @@ int main(int argc,char *argv[]){
 
   /* get input into walkTime */
   while(1){
-  printf("Enter walk time\n");
+  printf("Enter walk time 1-1000000\n");
   scanf("%s",Buffer);
   walkTime = strtol(Buffer,&end,10);
   if(*end)
     printf("Please enter number\n "); 
+  else if(walkTime < 1 || walkTime > 1000000)
+    printf("walkTime is out of range \n ");
   else
      break;
   }
@@ -113,9 +115,12 @@ int buyFood(int openAt[],int closeAt[],int walkTime){
   int currentTime=0;
   int maxcloseAt=0;
   int round=1;
+  int allItem=0;
   register int i=0;
  
-  /* loop check whether can buy item or not ?. exit loop when all shop closed */
+  /* loop check whether can buy item or not ?. exit loop when all shop closed 
+     or have bought all item already.
+   */
   while(1){
     printf("round%d\n",round);
     if(closeAt[i] > maxcloseAt)
@@ -127,15 +132,18 @@ int buyFood(int openAt[],int closeAt[],int walkTime){
      
     }
     currentTime += walkTime;
-    printf("closAt[%d] = %d\ncurrentTime = %d\nmaxCloseAt = %d\n",i,closeAt[i],currentTime,maxcloseAt);
+    printf("closAt[%d] = %d\ncurrentTime = %d\nmaxCloseAt = %d\n item= %d\n",i,closeAt[i],currentTime,maxcloseAt,item);
     i++;
    
     if(closeAt[i] == -1){
+      allItem = i; 
       i = 0;
       round += 1;
     }
     if(round>1){
       if(currentTime > maxcloseAt)
+	break;
+      else if(item == allItem)
 	break;
     }
   }
